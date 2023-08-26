@@ -1,5 +1,6 @@
 const stores = require('../store/store');
-const visitor = require('../config/visitor')
+const visitor = require('../config/visitor');
+
 async function getAudience(req,res){
     let audienceList = await stores.getList()
     res.send(audienceList)
@@ -7,11 +8,14 @@ async function getAudience(req,res){
 }
 async function saveAudience(req,res){
 
-	let id = req.body.id;
-    let query = {
-        employeeRange:req.body.employeeRange,
+	let id = req.body._id;
+    let Query = {name:req.body.name,
+        _id:id,
+        rules:req.body.rules,
+        personalizeConfig:req.body.personalizeConfig
     }
-    let saveAudience = await stores.saveListAudience(id,query);
+    
+    let saveAudience = await stores.saveListAudience(id,Query);
     res.send({status:200,data:[]})
 
 }
@@ -43,16 +47,38 @@ async function personalisation(req,res){
 
     
     let result = visitor.find(item => item.id ===id);
-    let audienceRUle =  audienceList.find((list => list.employeeRange ===result.employeeRange));
+    
+    let audienceRule ;
+    audienceList.forEach(element => {
+       let equalCondition = element.rules.find((list => list.condition == 'equals'));
 
-    if(audienceRUle){
-        res.send({status:200,data:audienceRUle})
+       if(equalCondition){
+
+            let rulematch =  element.rules.find((list => result[list.configKey] ===list.value));
+            
+            if(rulematch){
+                audienceRule = element
+            }
+       }
+       let greaterThan = element.rules.find((list => list.condition == '>'));
+
+       if(greaterThan){
+
+        let rulematch =  element.rules.find((list => result[list.configKey]>list.value));
+
+        if(rulematch){
+            audienceRule = element
+        }
+       }
+    });
+    
+
+    if(audienceRule){
+        res.send({status:200,data:audienceRule})
     }
     else{
         res.send({status:200,data:[]})
     }
-    res.send(result)
-
 }
 
 
