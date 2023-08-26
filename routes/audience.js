@@ -4,7 +4,8 @@ const router = express.Router();
 const appservices = require('../services/audience')
 
 
-router.get('/list',appservices.getAudience);
-router.post('/save',appservices.saveAudience);
+router.get('/lists',appservices.getAudience);
+router.post('/createAudience',appservices.saveAudience);
+router.get('/personalisation',appservices.personalisation)
 
 module.exports = router;
