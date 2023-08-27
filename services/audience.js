@@ -81,7 +81,7 @@ async function personalisation(req,res){
             let attributeValue = visitorDetails[audienceRule.personalizeConfig[0].attributeValue]|| audienceRule.personalizeConfig[0].attributeValue;
             let scriptFunction = `(function(ctx){
                 (function(personalizeConfig){
-                    let attributeId = ctx[0].attributeId;
+                    let attributeId = personalizeConfig[0].attributeId;
                     var a=document.getElementById(attributeId);
                     a.textContent="`+attributeValue+`"
                     console.log(personalizeConfig)
