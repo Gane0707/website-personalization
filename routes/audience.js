@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const appservices = require('../services/audience')
 
-res.setHeader('Access-Control-Allow-Origin', '*');
+app.use((req,res,next)=>{res.setHeader('Access-Control-Allow-Origin', '*')next(););
 
 router.get('/health-check',(req,res)=>{res.send("hello")});
 router.get('/lists',appservices.getAudience);
