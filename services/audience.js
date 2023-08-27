@@ -46,7 +46,7 @@ async function personalisation(req,res){
     // ]
 
     
-    let result = visitor.find(item => item.id ===id);
+    let visitorDetails = visitor.find(item => item.id ===id);
     
     let audienceRule ;
     audienceList.forEach(element => {
@@ -54,7 +54,7 @@ async function personalisation(req,res){
 
        if(equalCondition){
 
-            let rulematch =  element.rules.find((list => result[list.configKey] ===list.value));
+            let rulematch =  element.rules.find((list => visitorDetails[list.configKey] ===list.value));
             
             if(rulematch){
                 audienceRule = element
@@ -64,7 +64,7 @@ async function personalisation(req,res){
 
        if(greaterThan){
 
-        let rulematch =  element.rules.find((list => result[list.configKey]>list.value));
+        let rulematch =  element.rules.find((list => visitorDetails[list.configKey]>list.value));
 
         if(rulematch){
             audienceRule = element
@@ -74,10 +74,16 @@ async function personalisation(req,res){
     
 
     if(audienceRule){
-        res.send({status:200,data:audienceRule})
-    }
-    else{
-        res.send({status:200,data:[]})
+        if(audienceRule.personalizeConfig){
+            let scriptFunction = `(function(ctx){
+                (function(personalizeConfig){
+                    console.log(personalizeConfig)
+                }(ctx))
+            }(`+JSON.stringify(audienceRule.personalizeConfig)+`))`
+            res.setHeader('Content-Type', 'text/javascript');
+            res.send(scriptFunction)
+        }
+        //res.send({status:200,data:audienceRule})
     }
 }
 
