@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const body_parser = require('body-parser');
 const router = require('./routes/audience');
+const cors = require('cors');
 const dbconnection = require('./commonUtils/dbConnections')
 const port = process.env.PORT || 5200;
 //require('dotenv').config();
