@@ -79,8 +79,8 @@ async function personalisation(req,res){
         if(audienceRule.personalizeConfig){
             
             let config_attr_value = (audienceRule.personalizeConfig[0].attributeValue.replace(/[{}]/g, ""));
+            let attributeValue = visitorDetails[config_attr_value]||visitorDetails[audienceRule.personalizeConfig[0].attributeValue];
 
-            let attributeValue = visitorDetails[audienceRule.personalizeConfig[0].attributeValue]|| config_attr_value;
             let scriptFunction = `(function(ctx){
                 (function(personalizeConfig){
                     let attributeId = personalizeConfig[0].attributeId;
