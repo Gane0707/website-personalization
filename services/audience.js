@@ -11,6 +11,7 @@ async function saveAudience(req,res){
 	let id = req.body._id;
     let Query = {name:req.body.name,
         _id:id,
+        domainUrl:req.body.domainUrl,
         rules:req.body.rules,
         personalizeConfig:req.body.personalizeConfig
     }
