@@ -89,7 +89,8 @@ async function personalisation(req,res){
              (function(ctx){
                 (function(personalizeConfig){
              for( i in personalizeConfig){
-                    let attributeId = personalizeConfig[0].attributeId;
+                    let attributeId = personalizeConfig[i].attributeId;
+                    let attributeValue = personalizeConfig[i].attributeValue;
                     var a=document.getElementById(attributeId);
                     a.textContent=attributeValue
                 }}(ctx))
