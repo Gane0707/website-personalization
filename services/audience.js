@@ -17,7 +17,7 @@ async function saveAudience(req,res){
     }
     
     let saveAudience = await stores.saveListAudience(id,Query);
-    res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+    res.setHeader('Access-Control-Allow-Origin', *);
     res.send({status:200,data:[]})
 
 }
