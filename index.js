@@ -2,16 +2,16 @@ const express = require('express');
 const app = express();
 const body_parser = require('body-parser');
 const router = require('./routes/audience');
-const cors = require('cors');
 const dbconnection = require('./commonUtils/dbConnections')
 const port = process.env.PORT || 5200;
+const cors = require('./routes/cors');
 //require('dotenv').config();
 
 //   "mongodb://localhost:27017/newDB", 
 
 //console.log(process.env.Mongo_URL)
 
-
+app.use(cors);
 app.use(body_parser.json());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
