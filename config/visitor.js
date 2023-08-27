@@ -35,7 +35,7 @@ const visitor =[
                 country: "USA",
                 employeeCount: 1116,
                 ip: "183.82.206.100",
-                primaryIndustry: "Software",
+                primaryIndustry: "SOFTWARE",
                 revenue: 64788000,
                 state: "Tamil Nadu",
                 website: "www.amazon.com",

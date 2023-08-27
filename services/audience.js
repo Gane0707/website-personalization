@@ -77,18 +77,23 @@ async function personalisation(req,res){
     
     if(audienceRule){
         if(audienceRule.personalizeConfig){
-            
-            let config_attr_value = (audienceRule.personalizeConfig[0].attributeValue.replace(/[{}]/g, ""));
-            let attributeValue = visitorDetails[config_attr_value]||visitorDetails[audienceRule.personalizeConfig[0].attributeValue];
+            let arr=[]
+            for (i in audienceRule?.personalizeConfig ){
+            let config_attr_value = (audienceRule.personalizeConfig[i].attributeValue.replace(/[{}]/g, ""));
+            let attributeValue = visitorDetails[config_attr_value]||visitorDetails[audienceRule.personalizeConfig[i].attributeValue];
+            arr.push({...audienceRule.personalizeConfig[i],attributeValue:attributeValue})
+            }
 
-            let scriptFunction = `(function(ctx){
+        
+            let scriptFunction = `
+             (function(ctx){
                 (function(personalizeConfig){
+             for( i in personalizeConfig){
                     let attributeId = personalizeConfig[0].attributeId;
                     var a=document.getElementById(attributeId);
-                    a.textContent="`+attributeValue+`"
-                    console.log(personalizeConfig)
-                }(ctx))
-            }(`+JSON.stringify(audienceRule.personalizeConfig)+`))`
+                    a.textContent=attributeValue
+                }}(ctx))
+            }(`+JSON.stringify(arr)+`))`
             res.setHeader('Content-Type', 'text/javascript');
             res.send(scriptFunction)
         }
